@@ -1,6 +1,9 @@
-🎮 Simulador de Vida Virtual con IA 🤖
+<h1 align="center">🎮 Simulador de Vida Virtual con IA 🤖</h1>
 
-Un mini juego donde los personajes virtuales aprenden, interactúan y evolucionan utilizando Inteligencia Artificial. Los NPCs toman decisiones en tiempo real, aprenden de su entorno y cambian su comportamiento según las interacciones del usuario. 🌍✨
+<p align="center">
+  Un mini juego donde los personajes virtuales <strong>aprenden</strong>, <strong>interactúan</strong> y <strong>evolucionan</strong> utilizando <strong>Inteligencia Artificial</strong>. 
+  Los NPCs toman decisiones en tiempo real, aprenden de su entorno y cambian su comportamiento según las interacciones del usuario. 🌍✨
+</p>
 
 🚀 Tecnologías Utilizadas
 
