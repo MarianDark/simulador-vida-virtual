@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo
+    container_name: simulador-vida-virtual-mongo-1
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: simulador-vida-virtual-backend-1
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb+srv://marianmolina29:Hola1234@cluster1.oupgs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1
+      - SECRET_KEY=supersecretkey
+
+  frontend:
+    build: ./frontend
+    container_name: simulador-vida-virtual-frontend-1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - NODE_OPTIONS=--openssl-legacy-provider
+    stdin_open: true
+    tty: true
+
+volumes:
+  mongo_data:

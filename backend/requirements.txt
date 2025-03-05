@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+pymongo
+motor
+tensorflow
+openai
+python-dotenv
+bcrypt==4.0.1
+passlib[bcrypt]
+requests
+python-jose[cryptography]
+python-multipart
+dnspython
+pydantic[email]

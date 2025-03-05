@@ -1,0 +1,25 @@
+# Dependencias de Node.js
+node_modules/
+package-lock.json
+yarn.lock
+
+# Dependencias de Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Archivos de configuración y variables de entorno
+.env
+.env.local
+.env.development
+.env.production
+
+# Caché de Docker
+docker-compose.override.yml
+*.log
+*.db
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
