@@ -20,5 +20,9 @@ async def get_npc(npc_id: str):
 
 @router.get("/npc/decidir", response_model=NPCDecisionResponse)
 async def decidir_npc():
-    return {"npc_id": "1234", "decision": "Atacar"}
-
+    """
+    Endpoint para que un NPC tome una decisión usando OpenAI.
+    """
+    prompt = "El NPC está en una situación difícil. ¿Qué debería hacer?"
+    decision = generate_npc_decision(prompt)
+    return {"npc_id": "1234", "decision": decision}
