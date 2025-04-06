@@ -1,2 +1,8 @@
 # Inicialización del módulo backend
-print("Módulo backend cargado correctamente")
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+logger.info("Módulo backend cargado correctamente")
+

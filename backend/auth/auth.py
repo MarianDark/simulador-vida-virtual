@@ -1,6 +1,6 @@
 import os
 from datetime import datetime, timedelta
-from typing import Optional
+from typing import Optional, Dict, Any
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
@@ -33,14 +33,14 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 # Función para obtener un usuario de la base de datos simulada
-def get_user(db: dict, username: str):
+def get_user(db: Dict[str, Any], username: str) -> Optional[Dict[str, Any]]:
     return db.get(username)
 
 # Función para autenticar usuario (verifica usuario y contraseña)
-def authenticate_user(db: dict, username: str, password: str):
+def authenticate_user(db: Dict[str, Any], username: str, password: str) -> Optional[Dict[str, Any]]:
     user = get_user(db, username)
     if not user or not verify_password(password, user["hashed_password"]):
-        return False
+        return None
     return user
 
 # Función para crear un token de acceso JWT
@@ -51,7 +51,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 # Dependencia para obtener el usuario actual a partir del token de autenticación
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> Dict[str, Any]:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="No se pudo validar las credenciales",
@@ -70,7 +70,15 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     return user
 
 # Dependencia para verificar si el usuario está activo
-async def get_current_active_user(current_user: dict = Depends(get_current_user)):
+async def get_current_active_user(current_user: Dict[str, Any] = Depends(get_current_user)) -> Dict[str, Any]:
     if current_user.get("disabled"):
         raise HTTPException(status_code=400, detail="Usuario inactivo")
     return current_user
+
+# Función para actualizar la contraseña de un usuario
+def update_user_password(username: str, new_password: str) -> bool:
+    user = get_user(fake_users_db, username)
+    if user:
+        user["hashed_password"] = pwd_context.hash(new_password)
+        return True
+    return False

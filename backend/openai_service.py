@@ -25,6 +25,26 @@ def generate_npc_decision(prompt: str) -> str:
             max_tokens=50
         )
         return response["choices"][0]["message"]["content"].strip()
-    except Exception as e:
+    except openai.error.OpenAIError as e:
         print(f"Error con OpenAI: {e}")
         return "No se pudo generar una decisión."
+    except Exception as e:
+        print(f"Error inesperado: {e}")
+        return "Ocurrió un error inesperado."
+
+        def check_api_status() -> str:
+            """
+            Verifica el estado de la API de OpenAI.
+            """
+            try:
+                response = openai.Engine.list()
+                if response:
+                    return "La API de OpenAI está funcionando correctamente."
+                else:
+                    return "No se pudo verificar el estado de la API de OpenAI."
+            except openai.error.OpenAIError as e:
+                print(f"Error con OpenAI: {e}")
+                return "Error al verificar el estado de la API de OpenAI."
+            except Exception as e:
+                print(f"Error inesperado: {e}")
+                return "Ocurrió un error inesperado al verificar el estado de la API de OpenAI."

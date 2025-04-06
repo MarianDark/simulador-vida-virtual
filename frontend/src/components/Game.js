@@ -49,7 +49,7 @@ const Game = () => {
       });
 
       // ⚡ Obtener la decisión del NPC desde el backend
-      async function fetchDecision() {
+      const fetchDecision = async () => {
         try {
           const decision = await getNpcDecision();
           setNpcDecision(decision);
@@ -57,14 +57,16 @@ const Game = () => {
           console.error("❌ Error obteniendo la decisión del NPC:", error);
           setNpcDecision("Error al obtener la decisión");
         }
-      }
+      };
 
       fetchDecision();
     });
 
     // ⚡ Limpiar PixiJS cuando el componente se desmonte
     return () => {
-      app.destroy(true, { children: true, texture: true, baseTexture: true });
+      if (appRef.current) {
+        appRef.current.destroy(true, { children: true, texture: true, baseTexture: true });
+      }
     };
   }, []);
 
@@ -78,3 +80,4 @@ const Game = () => {
 };
 
 export default Game;
+
