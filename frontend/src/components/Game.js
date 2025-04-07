@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import * as PIXI from "pixi.js";
+import { Application, Sprite } from "pixi.js";
+import { Assets } from "@pixi/assets";
 import anime from "animejs";
 import { getNpcDecision, createNpc } from "../services/api";
 
@@ -17,7 +18,7 @@ const Game = () => {
   const appRef = useRef(null);
 
   useEffect(() => {
-    const app = new PIXI.Application({
+    const app = new Application({
       width: 800,
       height: 600,
       backgroundColor: 0x1099bb,
@@ -28,41 +29,42 @@ const Game = () => {
     appRef.current = app;
 
     if (gameContainerRef.current) {
+      gameContainerRef.current.innerHTML = ""; // Limpiar por si acaso
       gameContainerRef.current.appendChild(app.view);
     }
 
-    PIXI.Assets.add("npc", "/assets/npc.png");
+    const loadAndAnimate = async () => {
+      try {
+        // Registrar y cargar imagen
+        await Assets.add("npc", "/assets/npc.png");
+        const texture = await Assets.load("npc");
 
-    PIXI.Assets.load("npc").then((texture) => {
-      const sprite = new PIXI.Sprite(texture);
-      sprite.anchor.set(0.5);
-      sprite.x = app.screen.width / 2;
-      sprite.y = app.screen.height / 2;
-      sprite.scale.set(0.5);
-      app.stage.addChild(sprite);
+        const sprite = new Sprite(texture);
+        sprite.anchor.set(0.5);
+        sprite.scale.set(0.5);
+        sprite.x = app.screen.width / 2;
+        sprite.y = app.screen.height / 2;
+        app.stage.addChild(sprite);
 
-      anime({
-        targets: sprite,
-        x: [200, 600],
-        y: [150, 450],
-        duration: 2000,
-        easing: "easeInOutQuad",
-        loop: true,
-        direction: "alternate",
-      });
+        anime({
+          targets: sprite,
+          x: [200, 600],
+          y: [150, 450],
+          duration: 2000,
+          easing: "easeInOutQuad",
+          loop: true,
+          direction: "alternate",
+        });
 
-      const fetchDecision = async () => {
-        try {
-          const decision = await getNpcDecision();
-          setNpcDecision(decision);
-        } catch (error) {
-          console.error("❌ Error obteniendo la decisión del NPC:", error);
-          setNpcDecision("Error al obtener la decisión");
-        }
-      };
+        const decision = await getNpcDecision();
+        setNpcDecision(decision);
+      } catch (err) {
+        console.error("❌ Error cargando el sprite o decisión:", err);
+        setNpcDecision("Error al obtener la decisión o sprite");
+      }
+    };
 
-      fetchDecision();
-    });
+    loadAndAnimate();
 
     return () => {
       if (appRef.current) {
@@ -137,4 +139,3 @@ const Game = () => {
 };
 
 export default Game;
-
