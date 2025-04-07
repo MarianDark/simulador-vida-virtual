@@ -1,9 +1,12 @@
 import React from "react";
-import Game from "./frontend/src/components/Game.js"; // Asegúrate de que Game.js esté dentro de components
+import Game from "./components/Game";
+import NpcForm from "./components/NpcForm";
 
 const App = () => {
   return (
     <div>
+      <h1>Simulador de Vida Virtual con IA</h1>
+      <NpcForm />
       <Game />
     </div>
   );

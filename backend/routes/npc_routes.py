@@ -7,7 +7,7 @@ router = APIRouter()
 
 @router.post("/npc/create", response_model=NPCModel)
 async def create_npc(npc: NPCBase):
-    new_npc = npc.dict()
+    new_npc = npc.model_dump()
     result = await npc_collection.insert_one(new_npc)
     new_npc["id"] = str(result.inserted_id)
     return new_npc

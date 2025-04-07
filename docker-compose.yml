@@ -12,13 +12,14 @@ services:
   backend:
     build: ./backend
     container_name: simulador-vida-virtual-backend-1
+    env_file: .env
     ports:
       - "8000:8000"
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb+srv://marianmolina29:Hola1234@cluster1.oupgs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1
-      - SECRET_KEY=supersecretkey
+      - MONGO_URI=${MONGO_URI}
+      - SECRET_KEY=${SECRET_KEY}
 
   frontend:
     build: ./frontend
@@ -34,3 +35,4 @@ services:
 
 volumes:
   mongo_data:
+

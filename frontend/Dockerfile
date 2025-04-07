@@ -19,5 +19,8 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 # Expone el puerto 3000 (React usa este puerto por defecto)
 EXPOSE 3000
 
-# Comando para ejecutar React en modo producción
-CMD ["npx", "react-app-rewired", "start"]
+# Construye la aplicación para producción
+RUN npm run build
+
+# Comando para servir la aplicación en modo producción
+CMD ["npx", "serve", "-s", "build"]

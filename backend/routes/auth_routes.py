@@ -69,26 +69,4 @@ async def delete_user(current_user: UserInDB = Depends(authenticate_user)):
         raise HTTPException(status_code=400, detail="No se pudo eliminar el usuario")
 
     return {"detail": "Usuario eliminado correctamente"}
-    # El código parece estar bien estructurado y cubre las operaciones básicas de autenticación y gestión de usuarios.
-    # Sin embargo, hay un par de cosas que podrían mejorarse o añadirse:
-
-    # 1. Importar las dependencias necesarias si no están ya importadas:
-    # from fastapi import APIRouter, Depends, HTTPException
-    # from passlib.context import CryptContext
-    # from .models import UserCreate, UserInDB
-    # from .auth import authenticate_user, create_access_token
-    # from .database import user_collection
-
-    # 2. Asegurarse de que el contexto de contraseña esté definido:
-    # pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-    # 3. Asegurarse de que el router esté definido:
-    # router = APIRouter()
-
-    # 4. Asegurarse de que las funciones auxiliares como authenticate_user y create_access_token estén definidas y funcionando correctamente.
-
-    # 5. Asegurarse de que los modelos UserCreate y UserInDB estén definidos correctamente en el archivo models.py.
-
-    # 6. Asegurarse de que la colección user_collection esté correctamente configurada en el archivo database.py.
-
-    # Si todos estos puntos están cubiertos, el código debería funcionar correctamente.
+   
